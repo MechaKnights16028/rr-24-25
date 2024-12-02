@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -58,9 +59,9 @@ public final class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.UP;
+                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+                RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
         public double inPerTick = 1;
@@ -106,8 +107,8 @@ public final class MecanumDrive {
     public final AccelConstraint defaultAccelConstraint =
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
-
+    public final DcMotorEx leftFront, leftBack, rightBack, rightFront, vlSlides, vrSlides, hSlides;
+    public final Servo claw, intake, intakeBar;
     public final VoltageSensor voltageSensor;
 
     public final LazyImu lazyImu;
@@ -221,6 +222,12 @@ public final class MecanumDrive {
         leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
         rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        vlSlides = hardwareMap.get(DcMotorEx.class,"vlSlides");
+        vrSlides = hardwareMap.get(DcMotorEx.class, "vrSlides");
+        hSlides = hardwareMap.get(DcMotorEx.class, "hSlides");
+        claw = hardwareMap.get(Servo.class, "claw");
+        intake = hardwareMap.get(Servo.class, "intake");
+        intakeBar = hardwareMap.get(Servo.class, "intakeBar");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -230,6 +237,8 @@ public final class MecanumDrive {
         // TODO: reverse motor directions if needed
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
