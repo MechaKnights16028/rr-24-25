@@ -8,7 +8,10 @@ public class DriveCode extends DriveCodeCommon{
     public void RunOpMode(){
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         waitForStart();
-        DriveCodeCommon robot = new DriveCodeCommon();
+        drives(drive);
+        vLift(drive);
+        hLift(drive);
+        intakeServos(drive);
 
     }
 }
