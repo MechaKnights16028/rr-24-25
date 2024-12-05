@@ -11,9 +11,6 @@ public class DriveCodeCommon extends LinearOpMode {
     public double intakeServoZero = 0.25;
     @Override
     public void runOpMode() throws InterruptedException{
-        while(opModeIsActive()){
-
-         }
     }
     public void drives(MecanumDrive drive){
         drive.leftBack.setPower(gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
