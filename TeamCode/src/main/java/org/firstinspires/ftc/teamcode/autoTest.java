@@ -30,6 +30,10 @@ public class autoTest extends LinearOpMode{
             frontRight.setPower(1.0);
             backRight.setPower(1.0);
             sleep(1000);
+            frontLeft.setPower(0.0);
+            backLeft.setPower(0.0);
+            frontRight.setPower(0.0);
+            backRight.setPower(0.0);
         }
     }
 }
