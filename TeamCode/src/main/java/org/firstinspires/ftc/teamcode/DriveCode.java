@@ -8,9 +8,11 @@ public class DriveCode extends DriveCodeCommon{
 
     @Override
     public void runOpMode(){
-        waitForStart();
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
+        waitForStart();
+        declares();
         while(opModeIsActive()) {
+            update(drive);
             drives(drive);
             vLift(drive);
             hLift(drive);
