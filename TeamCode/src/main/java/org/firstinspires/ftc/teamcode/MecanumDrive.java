@@ -32,6 +32,7 @@ import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -107,8 +108,9 @@ public final class MecanumDrive {
     public final AccelConstraint defaultAccelConstraint =
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront, vlSlides, vrSlides, hSlides;
-    public final Servo claw, intake, intakeBar;
+    public final DcMotorEx leftFront, leftBack, rightBack, rightFront, vlSlides, vrSlides, vlSlides1, vrSlides1;
+    public final Servo intakeBar1, intakeBar2; //planeLauncher;
+    public final CRServo  intake1, intake2;
     public final VoltageSensor voltageSensor;
 
     public final LazyImu lazyImu;
@@ -219,15 +221,22 @@ public final class MecanumDrive {
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftRear");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        vlSlides = hardwareMap.get(DcMotorEx.class,"vlSlides");
-        vrSlides = hardwareMap.get(DcMotorEx.class, "vrSlides");
-        hSlides = hardwareMap.get(DcMotorEx.class, "hSlides");
-        claw = hardwareMap.get(Servo.class, "claw");
-        intake = hardwareMap.get(Servo.class, "intake");
-        intakeBar = hardwareMap.get(Servo.class, "intakeBar");
+        vlSlides = hardwareMap.get(DcMotorEx.class,"leftLift");
+        vrSlides = hardwareMap.get(DcMotorEx.class, "rightLift");
+        vlSlides1 = hardwareMap.get(DcMotorEx.class,"leftLift1");
+        vrSlides1 = hardwareMap.get(DcMotorEx.class, "rightLift1");
+        intakeBar1 = hardwareMap.get(Servo.class,"intakeBar1");
+        intakeBar2 = hardwareMap.get(Servo.class,"intakeBar2");
+        intake1 = hardwareMap.get(CRServo.class, "intake1");
+        intake2 = hardwareMap.get(CRServo.class,"intake2");
+        //planeLauncher = hardwareMap.get(Servo.class,"planeLauncher");
+        //hSlides = hardwareMap.get(DcMotorEx.class, "hSlides");
+        //claw = hardwareMap.get(Servo.class, "claw");
+        //intake = hardwareMap.get(Servo.class, "intake");
+        //intakeBar = hardwareMap.get(Servo.class, "intakeBar");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
