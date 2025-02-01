@@ -24,47 +24,50 @@ public class DriveCodeCommon extends LinearOpMode {
     ToggleButtonReader intakeToggle;
     ToggleButtonReader intakeBarIntakeToggle;
     double speed = 1.0;
+
     @Override
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() throws InterruptedException {
     }
-    public void declares(){
-         gamepadEx = new GamepadEx(gamepad2);
-         clawToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.X);
-         handoffToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.Y);
-         intakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.A);
-         intakeBarIntakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.B);
+
+    public void declares() {
+        gamepadEx = new GamepadEx(gamepad2);
+        clawToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.X);
+        handoffToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.Y);
+        intakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.A);
+        intakeBarIntakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.B);
     }
-    public void drives(MecanumDrive drive){
-        if(gamepad1.right_bumper){
+
+    public void drives(MecanumDrive drive) {
+        if (gamepad1.right_bumper) {
             speed = 0.5;
-        }
-        else{
+        } else {
             speed = 1.0;
         }
-        drive.leftBack.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x)*speed);
-        drive.leftFront.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x)*speed);
-        drive.rightBack.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x)*speed);
-        drive.rightFront.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x)*speed);
+        drive.leftBack.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x) * speed);
+        drive.leftFront.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x) * speed);
+        drive.rightBack.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x) * speed);
+        drive.rightFront.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x) * speed);
     }
-    public void update(MecanumDrive drive){
+
+    public void update(MecanumDrive drive) {
         clawToggle.readValue();
         intakeToggle.readValue();
         intakeBarIntakeToggle.readValue();
         handoffToggle.readValue();
     }
-    public void vLift(MecanumDrive drive){
-        if(gamepad2.dpad_up){
+
+    public void vLift(MecanumDrive drive) {
+        if (gamepad2.dpad_up) {
             drive.vlSlides.setPower(1);
             drive.vrSlides.setPower(-(1));
-            drive.vlSlides1.setPower(1);
-            drive.vrSlides1.setPower(-(1));
-        } else if(gamepad2.dpad_down){
-            drive.vlSlides.setPower(-1);
-            drive.vrSlides.setPower(1);
             drive.vlSlides1.setPower(-1);
             drive.vrSlides1.setPower(1);
-        }
-        else{
+        } else if (gamepad2.dpad_down) {
+            drive.vlSlides.setPower(-1);
+            drive.vrSlides.setPower(1);
+            drive.vlSlides1.setPower(1);
+            drive.vrSlides1.setPower(-1);
+        } else {
             drive.vlSlides.setPower(0);
             drive.vrSlides.setPower(0);
             drive.vlSlides1.setPower(0);
@@ -72,26 +75,27 @@ public class DriveCodeCommon extends LinearOpMode {
         }
 
     }
-    public void swingbar(MecanumDrive drive){
-        if(gamepad2.a){
+
+    public void swingbar(MecanumDrive drive) {
+        if (gamepad2.a) {
             drive.intakeBar1.setPosition(intakeBarPickUp);
             drive.intakeBar2.setPosition(intakeBarZero);
-        }
-        else{
+        } else {
             drive.intakeBar2.setPosition(intakeBarPickUp);
             drive.intakeBar1.setPosition(intakeBarZero);
         }
     }
-    public void intakeServos(MecanumDrive drive){
-        if(gamepad2.x){
+
+    public void intakeServos(MecanumDrive drive) {
+        if (gamepad2.x) {
             drive.intake1.setPower(1.0);
             drive.intake2.setPower(-1.0);
-        }
-        else{
+        } else {
             drive.intake1.setPower(0.0);
             drive.intake2.setPower(0.0);
         }
-    }/*
+    }
+    /*
     public void plane(MecanumDrive drive){
         if (gamepad1.a){
             drive.planeLauncher.setPosition(0);

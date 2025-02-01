@@ -108,8 +108,8 @@ public final class MecanumDrive {
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
     public final DcMotorEx leftFront, leftBack, rightBack, rightFront, vlSlides, vrSlides, vlSlides1, vrSlides1;
-    public final Servo intakeBar1, intakeBar2; //planeLauncher;
-    public final CRServo  intake1, intake2;
+    public final Servo intakeBar1, intakeBar2, hSlides, intakeRotate; //planeLauncher;
+    public final CRServo  intake1, intake2/*, bar1, bar2*/;
     public final VoltageSensor voltageSensor;
 
     public final LazyImu lazyImu;
@@ -235,10 +235,14 @@ public final class MecanumDrive {
         vrSlides = hardwareMap.get(DcMotorEx.class, "rightLift");
         vlSlides1 = hardwareMap.get(DcMotorEx.class,"leftLift1");
         vrSlides1 = hardwareMap.get(DcMotorEx.class, "rightLift1");
-        intakeBar1 = hardwareMap.get(Servo.class,"intakeBar1");
-        intakeBar2 = hardwareMap.get(Servo.class,"intakeBar2");
+        intakeBar1 = hardwareMap.get(Servo.class,"barRight");
+        intakeBar2 = hardwareMap.get(Servo.class,"barLeft");
         intake1 = hardwareMap.get(CRServo.class, "intake1");
         intake2 = hardwareMap.get(CRServo.class,"intake2");
+        hSlides = hardwareMap.get(Servo.class, "hSlides");
+        intakeRotate = hardwareMap.get(Servo.class, "aBar");
+
+
         //planeLauncher = hardwareMap.get(Servo.class,"planeLauncher");
         //hSlides = hardwareMap.get(DcMotorEx.class, "hSlides");
         //claw = hardwareMap.get(Servo.class, "claw");
