@@ -78,16 +78,20 @@ public class DriveCodeCommon extends LinearOpMode {
 
     public void swingbar(MecanumDrive drive) {
         if (gamepad2.a) {
-            drive.intakeBar1.setPosition(intakeBarPickUp);
-            drive.intakeBar2.setPosition(intakeBarZero);
-        } else {
             drive.intakeBar2.setPosition(intakeBarPickUp);
             drive.intakeBar1.setPosition(intakeBarZero);
+
+        } else {
+            drive.intakeBar1.setPosition(intakeBarPickUp);
+            drive.intakeBar2.setPosition(intakeBarZero);
         }
     }
 
     public void intakeServos(MecanumDrive drive) {
         if (gamepad2.x) {
+            drive.intake1.setPower(-1.0);
+            drive.intake2.setPower(1.0);
+        }else if (gamepad2.y){
             drive.intake1.setPower(1.0);
             drive.intake2.setPower(-1.0);
         } else {
@@ -105,8 +109,8 @@ public class DriveCodeCommon extends LinearOpMode {
         }
 
     }*/
-    /*
-    public void hLift(MecanumDrive drive){
+
+    /*public void hLift(MecanumDrive drive){
         if(gamepad2.dpad_left) {
             drive.hSlides.setPower(1);
         }else if(gamepad2.dpad_right) {
@@ -115,7 +119,7 @@ public class DriveCodeCommon extends LinearOpMode {
         }else{
             drive.hSlides.setPower(0);
         }
-    }
+    }/*
     public void intakeServos(MecanumDrive drive){
         /*if (gamepad2.a){
             drive.intakeBar.setPosition(intakeBarZero);

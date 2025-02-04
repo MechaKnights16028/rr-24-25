@@ -67,11 +67,11 @@ public class BlueAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Pose2d initialPose = new Pose2d(-63, -9, Math.toRadians(-90));
+        Pose2d initialPose = new Pose2d(9, 63, Math.toRadians(-90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose );
 
         TrajectoryActionBuilder moveToPreload = drive.actionBuilder(initialPose)
-                        .splineTo(new Vector2d(-32, 0),2 );
+                        .lineToY(32);
         waitForStart();
         if (isStopRequested()) return;
         Action trajectoryActionChosen;
