@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
@@ -37,6 +38,14 @@ public class DriveCodeCommon extends LinearOpMode {
         handoffToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.Y);
         intakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.A);
         intakeBarIntakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.B);
+    }
+    public void resetEncoders(MecanumDrive drive){
+        drive.vlSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        drive.vrSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public void telemetry(MecanumDrive drive){
+        telemetry.addData(String.valueOf(drive.vlSlides.getCurrentPosition()), drive.vrSlides.getCurrentPosition());
+        telemetry.update();
     }
 
     public void drives(MecanumDrive drive) {
