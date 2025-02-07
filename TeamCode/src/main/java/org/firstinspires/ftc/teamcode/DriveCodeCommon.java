@@ -60,10 +60,10 @@ public class DriveCodeCommon extends LinearOpMode {
 //        drive.rightFront.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x) * speed);
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -gamepad1.left_stick_y,
-                        -gamepad1.left_stick_x
+                        gamepad1.left_stick_y*speed,
+                        gamepad1.left_stick_x*speed
                 ),
-                -gamepad1.right_stick_x
+                -gamepad1.right_stick_x*speed
         ));
 
     }
@@ -118,6 +118,32 @@ public class DriveCodeCommon extends LinearOpMode {
             drive.intake2.setPower(0.0);
         }
     }
+    public void hslides(MecanumDrive drive){
+        /*if(gamepad2.dpad_right){
+            drive.hSlides.setPower(-1);
+        }
+        else if(gamepad2.dpad_left){
+            drive.hSlides.setPower(1);
+        }
+        else{
+            drive.hSlides.setPower(0);
+        }*/
+        drive.hSlides.setPower(-gamepad2.left_stick_y);
+    }
+    public void intakeBar(MecanumDrive drive){
+        if(gamepad2.left_bumper){
+            drive.intakeRotate.setPosition(0);
+        }
+        else if(gamepad2.right_bumper){
+            drive.intakeRotate.setPosition(1.0);
+        }
+    }
+    public void head(MecanumDrive drive){
+        if(gamepad2.right_stick_button){
+            drive.head1.setPosition(1.0);
+            drive.head2.setPosition(0);
+        }
+    }
     /*
     public void plane(MecanumDrive drive){
         if (gamepad1.a){
@@ -127,18 +153,7 @@ public class DriveCodeCommon extends LinearOpMode {
             drive.planeLauncher.setPosition(1);
         }
 
-    }*/
-
-    /*public void hLift(MecanumDrive drive){
-        if(gamepad2.dpad_left) {
-            drive.hSlides.setPower(1);
-        }else if(gamepad2.dpad_right) {
-            drive.hSlides.setPower(-1);
-            drive.intakeBar.setPosition(intakeBarHandoff);
-        }else{
-            drive.hSlides.setPower(0);
-        }
-    }/*
+    }*//*
     public void intakeServos(MecanumDrive drive){
         /*if (gamepad2.a){
             drive.intakeBar.setPosition(intakeBarZero);

@@ -17,6 +17,8 @@ public class DriveCode extends DriveCodeCommon{
             vLift(drive);
             swingbar(drive);
             intakeServos(drive);
+            hslides(drive);
+            intakeBar(drive);
             //plane(drive);
         }
     }

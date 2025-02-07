@@ -108,8 +108,8 @@ public final class MecanumDrive {
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
     public final DcMotorEx leftFront, leftBack, rightBack, rightFront, vlSlides, vrSlides, vlSlides1, vrSlides1;
-    public final Servo intakeBar1, intakeBar2, hSlides, intakeRotate; //planeLauncher;
-    public final CRServo  intake1, intake2/*, bar1, bar2*/;
+    public final Servo intakeBar1, intakeBar2, intakeRotate, head1,head2; //planeLauncher;
+    public final CRServo  intake1, intake2, hSlides/*, bar1, bar2*/;
     public final VoltageSensor voltageSensor;
 
     public final LazyImu lazyImu;
@@ -239,8 +239,10 @@ public final class MecanumDrive {
         intakeBar2 = hardwareMap.get(Servo.class,"barLeft");
         intake1 = hardwareMap.get(CRServo.class, "intake1");
         intake2 = hardwareMap.get(CRServo.class,"intake2");
-        hSlides = hardwareMap.get(Servo.class, "hSlides");
+        hSlides = hardwareMap.get(CRServo.class, "hSlides");
         intakeRotate = hardwareMap.get(Servo.class, "aBar");
+        head1 = hardwareMap.get(Servo.class, "head1");
+        head2 = hardwareMap.get(Servo.class,"head2");
 
 
         //planeLauncher = hardwareMap.get(Servo.class,"planeLauncher");
