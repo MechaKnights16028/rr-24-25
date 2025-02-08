@@ -50,7 +50,7 @@ public class BlueAuto extends LinearOpMode {
 
                 double pos = vlSlides.getCurrentPosition();
                 packet.put("liftPos", pos);
-                if (pos < -1750.0) {
+                if (pos > -1800.0) {
                     return true;
                 } else {
                     vlSlides.setPower(0);
@@ -102,7 +102,7 @@ public class BlueAuto extends LinearOpMode {
 
                 double pos = vlSlides.getCurrentPosition();
                 packet.put("liftPos", pos);
-                if (pos < -700) {
+                if (pos > -700) {
                     return true;
                 } else {
                     vrSlides.setPower(0);
@@ -122,20 +122,25 @@ public class BlueAuto extends LinearOpMode {
         Lift lift = new Lift(hardwareMap);
 
         TrajectoryActionBuilder moveToPreload = drive.actionBuilder(initialPose)
-                        .lineToY(30);
+                        .lineToY(28);
+        TrajectoryActionBuilder scorePreload = drive.actionBuilder(initialPose)
+                        .lineToY(40);
+        TrajectoryActionBuilder park = drive.actionBuilder(initialPose)
+                        .splineTo(new Vector2d(-63, 63),2.5);
         waitForStart();
         if (isStopRequested()) return;
-        Action trajectoryActionChosen;
-        trajectoryActionChosen = moveToPreload.build();
+        Action trajectory1,trajectory2, trajectory3;
+        trajectory1 = moveToPreload.build();
+        trajectory2 = scorePreload.build();
+        trajectory3 = park.build();
         Actions.runBlocking(
                 new SequentialAction(
                         lift.liftInit(),
-                        trajectoryActionChosen,
-                        lift.liftUp()
+                        trajectory1,
+                        lift.liftUp(),
+                        trajectory2,
+                        trajectory3
                 )
         );
     }
 }
-
-
-
