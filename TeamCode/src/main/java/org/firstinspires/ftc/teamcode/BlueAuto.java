@@ -153,9 +153,9 @@ public class BlueAuto extends LinearOpMode {
                         trajectory1,
                         lift.liftUp(),
                         //trajectory2,
-                        lift.liftDown()
-                        //trajectory4,
-                        //trajectory3
+                        lift.liftDown(),
+                        trajectory4,
+                        trajectory3
                 )
         );
     }
