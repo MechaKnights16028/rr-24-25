@@ -20,8 +20,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
-@Autonomous(name = "BlueAuto", group = "Autonomous")
-public class BlueAuto extends LinearOpMode {
+@Autonomous(name = "RedAuto", group = "Autonomous")
+public class RedAuto extends LinearOpMode {
 
     public class Lift {
         private DcMotorEx vlSlides, vlSlides1, vrSlides, vrSlides1;
@@ -127,19 +127,19 @@ public class BlueAuto extends LinearOpMode {
     }
     @Override
     public void runOpMode() {
-        Pose2d initialPose = new Pose2d(0, 63, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(0, -63, Math.toRadians(-90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose );
         Lift lift = new Lift(hardwareMap);
 
         TrajectoryActionBuilder moveToPreload = drive.actionBuilder(initialPose)
-                        .lineToY(28);
+                .lineToY(-28);
         TrajectoryActionBuilder scorePreload = drive.actionBuilder(initialPose)
-                        .lineToY(35);
+                .lineToY(-35);
         TrajectoryActionBuilder moveBack = drive.actionBuilder(initialPose)
-                        .lineToY(50);
+                .lineToY(-50);
         TrajectoryActionBuilder park = drive.actionBuilder(initialPose)
-                        .turn(Math.toRadians(-90))
-                        .lineToX(-60);
+                .turn(Math.toRadians(90))
+                .lineToX(60);
         waitForStart();
         if (isStopRequested()) return;
         Action trajectory1,trajectory2, trajectory3, trajectory4;
