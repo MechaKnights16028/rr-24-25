@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
-@Autonomous(name = "BlueAuto", group = "Autonomous")
+@Autonomous(name = "BlueAutowait", group = "Autonomous")
 public class BlueAutoWait extends LinearOpMode {
 
     public class Lift {

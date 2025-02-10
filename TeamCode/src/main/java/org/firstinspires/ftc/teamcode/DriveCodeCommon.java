@@ -142,6 +142,8 @@ public class DriveCodeCommon extends LinearOpMode {
         if(gamepad2.right_stick_button){
             drive.head1.setPosition(1.0);
             drive.head2.setPosition(0);
+            telemetry.addData("moved","head");
+            telemetry.update();
         }
     }
     /*
