@@ -143,16 +143,20 @@ public class BlueAuto extends LinearOpMode {
         TrajectoryActionBuilder moveRight = drive.actionBuilder(initialPose)
                         .strafeTo(new Vector2d(-35,35));
         TrajectoryActionBuilder moveForward = drive.actionBuilder(initialPose)
-                        .strafeTo(new Vector2d(-35,10));
+                        .strafeTo(new Vector2d(-35, 10));
+        TrajectoryActionBuilder bringBlock1 = drive.actionBuilder(initialPose)
+                        .strafeTo(new Vector2d(-50,10))
+                        .lineToY(60);
         waitForStart();
         if (isStopRequested()) return;
-        Action trajectory1,trajectory2, trajectory3, trajectory4,trajectory5,trajectory6;
+        Action trajectory1,trajectory2, trajectory3, trajectory4,trajectory5,trajectory6,trajectory7;
         trajectory1 = moveToPreload.build();
         trajectory2 = scorePreload.build();
         trajectory3 = park.build();
         trajectory4 = moveBack.build();
         trajectory5 = moveRight.build();
         trajectory6 = moveForward.build();
+        trajectory7 = bringBlock1.build();
         Actions.runBlocking(
                 new SequentialAction(
                         lift.liftInit(),
@@ -161,7 +165,8 @@ public class BlueAuto extends LinearOpMode {
                         lift.liftDown(),
                         trajectory2,
                         trajectory5,
-                        trajectory6
+                        trajectory6,
+                        trajectory7
                         //trajectory4
                         //trajectory3
                 )

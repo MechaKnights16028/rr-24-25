@@ -135,7 +135,7 @@ public class DriveCodeCommon extends LinearOpMode {
             drive.intakeRotate.setPosition(0);
         }
         else if(gamepad2.right_bumper){
-            drive.intakeRotate.setPosition(0.67);
+            drive.intakeRotate.setPosition(0.4);
         }
     }
     public void head(MecanumDrive drive){

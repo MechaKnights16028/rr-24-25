@@ -20,6 +20,7 @@ public class MeepMeepTesting {
                 .lineToY(35)
                 .strafeTo(new Vector2d(-35,35))
                 .strafeTo(new Vector2d(-35,10))
+                .strafeTo(new Vector2d(-50,10))
                 //.turn(Math.toRadians(90))
                 .build());
 
