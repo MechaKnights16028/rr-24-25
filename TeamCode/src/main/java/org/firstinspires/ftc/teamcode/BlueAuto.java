@@ -18,6 +18,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.acmerobotics.roadrunner.Trajectory;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Config
 @Autonomous(name = "BlueAuto", group = "Autonomous")
@@ -131,42 +133,41 @@ public class BlueAuto extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose );
         Lift lift = new Lift(hardwareMap);
 
-        TrajectoryActionBuilder moveToPreload = drive.actionBuilder(initialPose)
-                        .lineToY(28);
-        TrajectoryActionBuilder scorePreload = drive.actionBuilder(initialPose)
-                        .lineToY(35);
-        TrajectoryActionBuilder moveBack = drive.actionBuilder(initialPose)
-                        .lineToY(50);
-        TrajectoryActionBuilder park = drive.actionBuilder(initialPose)
+        Action moveToPreload = drive.actionBuilder(initialPose)
+                        .lineToY(28)
+                        .build();
+        Action scorePreload = drive.actionBuilder(new Pose2d(0,28,Math.toRadians(90)))
+                        .lineToY(35)
+                        .build();
+        Action moveBack = drive.actionBuilder(new Pose2d(0,35,Math.toRadians(90)))
+                        .lineToY(50)
+                        .build();
+        Action park = drive.actionBuilder(new Pose2d(0,50,Math.toRadians(90)))
                         .turn(Math.toRadians(-90))
-                        .lineToX(-60);
-        TrajectoryActionBuilder moveRight = drive.actionBuilder(initialPose)
-                        .strafeTo(new Vector2d(-35,35));
-        TrajectoryActionBuilder moveForward = drive.actionBuilder(initialPose)
-                        .strafeTo(new Vector2d(-35, 10));
-        TrajectoryActionBuilder bringBlock1 = drive.actionBuilder(initialPose)
+                        .lineToX(-60)
+                        .build();
+        Action moveRight = drive.actionBuilder(new Pose2d(0,35,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-35,35))
+                        .build();
+        Action moveForward = drive.actionBuilder(new Pose2d(-35,35,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-35, 10))
+                        .build();
+        Action bringBlock1 = drive.actionBuilder(new Pose2d(-35,10,Math.toRadians(90)))
                         .strafeTo(new Vector2d(-50,10))
-                        .lineToY(60);
+                        .lineToY(60)
+                        .build();
         waitForStart();
         if (isStopRequested()) return;
-        Action trajectory1,trajectory2, trajectory3, trajectory4,trajectory5,trajectory6,trajectory7;
-        trajectory1 = moveToPreload.build();
-        trajectory2 = scorePreload.build();
-        trajectory3 = park.build();
-        trajectory4 = moveBack.build();
-        trajectory5 = moveRight.build();
-        trajectory6 = moveForward.build();
-        trajectory7 = bringBlock1.build();
         Actions.runBlocking(
                 new SequentialAction(
                         lift.liftInit(),
-                        trajectory1,
+                        moveToPreload,
                         lift.liftUp(),
                         lift.liftDown(),
-                        trajectory2,
-                        trajectory5,
-                        trajectory6,
-                        trajectory7
+                        scorePreload,
+                        moveRight,
+                        moveForward,
+                        bringBlock1
                         //trajectory4
                         //trajectory3
                 )
