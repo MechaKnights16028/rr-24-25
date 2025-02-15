@@ -25,8 +25,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Autonomous(name = "BlueAuto", group = "Autonomous")
 public class BlueAuto extends LinearOpMode {
 
+    public class intakeBar{
+        private Servo intakeBar1, intakeBar2;
+        public intakeBar(HardwareMap hardwareMap) {
+            intakeBar1 = hardwareMap.get(Servo.class, "barRight");
+            intakeBar2 = hardwareMap.get(Servo.class, "barLeft");
+        }
+        public class barScore
+    }
     public class Lift {
         private DcMotorEx vlSlides, vlSlides1, vrSlides, vrSlides1;
+
         public Lift(HardwareMap hardwareMap) {
             vlSlides = hardwareMap.get(DcMotorEx.class, "leftLift");
             vlSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -36,6 +45,7 @@ public class BlueAuto extends LinearOpMode {
             vrSlides = hardwareMap.get(DcMotorEx.class, "rightLift");
             vrSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             vrSlides.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
 
         }
@@ -150,11 +160,16 @@ public class BlueAuto extends LinearOpMode {
                         .strafeTo(new Vector2d(-35,35))
                         .build();
         Action moveForward = drive.actionBuilder(new Pose2d(-35,35,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-35, 10))
+                        .strafeTo(new Vector2d(-35, 6))
                         .build();
-        Action bringBlock1 = drive.actionBuilder(new Pose2d(-35,10,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-50,10))
-                        .lineToY(60)
+        Action bringBlock1 = drive.actionBuilder(new Pose2d(-35,6,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-45,6))
+                        .strafeTo(new Vector2d(-45,60))
+                        .build();
+        Action getBlock2 = drive.actionBuilder(new Pose2d(-45,60,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-45,6))
+                        .strafeTo(new Vector2d(-55,6))
+                        .strafeTo(new Vector2d(-55,60))
                         .build();
         waitForStart();
         if (isStopRequested()) return;
@@ -167,7 +182,8 @@ public class BlueAuto extends LinearOpMode {
                         scorePreload,
                         moveRight,
                         moveForward,
-                        bringBlock1
+                        bringBlock1,
+                        getBlock2
                         //trajectory4
                         //trajectory3
                 )

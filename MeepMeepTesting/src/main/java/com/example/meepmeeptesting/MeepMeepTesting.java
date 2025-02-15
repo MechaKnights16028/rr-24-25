@@ -19,8 +19,13 @@ public class MeepMeepTesting {
                 .lineToY(28)
                 .lineToY(35)
                 .strafeTo(new Vector2d(-35,35))
-                .strafeTo(new Vector2d(-35,10))
-                .strafeTo(new Vector2d(-50,10))
+                .strafeTo(new Vector2d(-35,6))
+                .strafeTo(new Vector2d(-45,6))
+                .strafeTo(new Vector2d(-45,60))
+                .strafeTo(new Vector2d(-45,6))
+                .strafeTo(new Vector2d(-55,6))
+                .strafeTo(new Vector2d(-55,60))
+                //.splineToLinearHeading(new Pose2d(-50,60,Math.toRadians(90)),5)
                 //.turn(Math.toRadians(90))
                 .build());
 
