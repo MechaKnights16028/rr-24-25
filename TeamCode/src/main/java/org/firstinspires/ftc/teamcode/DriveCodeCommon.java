@@ -22,10 +22,12 @@ public class DriveCodeCommon extends LinearOpMode {
     //public static double clawPosOne = 0.0;
     //public static double clawPosTwo = 0.5;
     GamepadEx gamepadEx;
+    ToggleButtonReader headToggle;
     ToggleButtonReader clawToggle;
     ToggleButtonReader handoffToggle;
     ToggleButtonReader intakeToggle;
     ToggleButtonReader intakeBarIntakeToggle;
+    ToggleButtonReader intakeBarToggle;
     double speed = 1.0;
 
     @Override
@@ -34,9 +36,11 @@ public class DriveCodeCommon extends LinearOpMode {
 
     public void declares() {
         gamepadEx = new GamepadEx(gamepad2);
+        headToggle = new ToggleButtonReader(gamepadEx,GamepadKeys.Button.RIGHT_STICK_BUTTON);
+        intakeToggle = new ToggleButtonReader(gamepadEx,GamepadKeys.Button.LEFT_STICK_BUTTON);
         clawToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.X);
         handoffToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.Y);
-        intakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.A);
+        intakeBarToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.A);
         intakeBarIntakeToggle = new ToggleButtonReader(gamepadEx, GamepadKeys.Button.B);
     }
     public void resetEncoders(MecanumDrive drive){
@@ -69,7 +73,9 @@ public class DriveCodeCommon extends LinearOpMode {
     }
 
     public void update(MecanumDrive drive) {
+        headToggle.readValue();
         clawToggle.readValue();
+        intakeBarToggle.readValue();
         intakeToggle.readValue();
         intakeBarIntakeToggle.readValue();
         handoffToggle.readValue();
@@ -79,6 +85,7 @@ public class DriveCodeCommon extends LinearOpMode {
         if (gamepad2.dpad_up) {
             drive.vlSlides.setPower(1);
             drive.vrSlides.setPower(-(1));
+
             drive.vlSlides1.setPower(-1);
             drive.vrSlides1.setPower(1);
         } else if (gamepad2.dpad_down) {
@@ -96,7 +103,7 @@ public class DriveCodeCommon extends LinearOpMode {
     }
 
     public void swingbar(MecanumDrive drive) {
-        if (gamepad2.a) {
+        if (intakeBarToggle.getState()) {
             drive.intakeBar2.setPosition(intakeBarPickUp);
             drive.intakeBar1.setPosition(intakeBarZero);
 
@@ -139,11 +146,15 @@ public class DriveCodeCommon extends LinearOpMode {
         }
     }
     public void head(MecanumDrive drive){
-        if(gamepad2.right_stick_button){
-            drive.head1.setPosition(1.0);
-            drive.head2.setPosition(0);
+        if(headToggle.getState()){
+            drive.head1.setPosition(-0.5);
+            drive.head2.setPosition(0.5);
             telemetry.addData("moved","head");
             telemetry.update();
+        }
+        else {
+            drive.head1.setPosition(0);
+            drive.head2.setPosition(0);
         }
     }
     /*
