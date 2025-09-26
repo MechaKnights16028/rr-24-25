@@ -1,19 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
 @Config
-public class DriveCodeCommon extends LinearOpMode {
+public class DriveCodeCommonDemo extends LinearOpMode {
     public static double intakeBarZero = 0.0;
     //public static double intakeServoZero = 0.25;
     //public static double intakeBarHandoff = 0.35;
@@ -27,7 +24,7 @@ public class DriveCodeCommon extends LinearOpMode {
     ToggleButtonReader handoffToggle;
     ToggleButtonReader intakeToggle;
     ToggleButtonReader intakeBarIntakeToggle;
-    double speed = 1.0;
+    double speed = 0.5;
     boolean gameOver = false;
 
     @Override
@@ -81,7 +78,7 @@ public class DriveCodeCommon extends LinearOpMode {
 
     public void vLift(MecanumDrive drive) {
         if (gamepad2.right_trigger > 0.5){
-            gameOver = true;
+            gameOver = false;//set to true for this to work
         }
         if (gamepad2.dpad_up) {
             gameOver = false;

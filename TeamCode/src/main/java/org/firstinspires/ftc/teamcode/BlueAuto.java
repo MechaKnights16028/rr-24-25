@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -54,7 +55,7 @@ public class BlueAuto extends LinearOpMode {
     }
     public class Lift {
         private DcMotorEx vlSlides, vlSlides1, vrSlides, vrSlides1;
-        double liftPower = 0.75;
+        double liftPower = 1.0;
 
         public Lift(HardwareMap hardwareMap) {
             vlSlides = hardwareMap.get(DcMotorEx.class, "leftLift");
@@ -88,11 +89,11 @@ public class BlueAuto extends LinearOpMode {
                     initialized = true;
                 }
 
-                double pos = vlSlides.getCurrentPosition();
+                double pos = vrSlides.getCurrentPosition();
                 telemetry.addData("lift",pos);
                 telemetry.update();
                 packet.put("liftPos", pos);
-                if (pos > -1800.0) {
+                if (pos > -2000.0) {
                     return true;
                 } else {
                     vlSlides.setPower(0);
@@ -120,7 +121,7 @@ public class BlueAuto extends LinearOpMode {
                     initialized = true;
                 }
 
-                double pos = vlSlides.getCurrentPosition();
+                double pos = vrSlides.getCurrentPosition();
                 telemetry.addData("lift",pos);
                 telemetry.update();
                 packet.put("liftPos", pos);
@@ -153,11 +154,11 @@ public class BlueAuto extends LinearOpMode {
                     initialized = true;
                 }
 
-                double pos = vlSlides.getCurrentPosition();
+                double pos = vrSlides.getCurrentPosition();
                 telemetry.addData("lift",pos);
                 telemetry.update();
                 packet.put("liftPos", pos);
-                if (pos < 0) {
+                if (pos < 30) {
                     return true;
                 } else {
                     telemetry.addData("exited","liftdown");
@@ -174,6 +175,42 @@ public class BlueAuto extends LinearOpMode {
             return new LiftDown();
         }
 
+        public class LiftDownFinal implements Action {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                telemetry.addData("entered","liftdown");
+                telemetry.update();
+                if (!initialized) {
+                    vlSlides.setPower(-liftPower);
+                    vrSlides.setPower(-liftPower);
+                    vlSlides1.setPower(liftPower);
+                    vrSlides1.setPower(liftPower);
+                    initialized = true;
+                }
+
+                double pos = vrSlides.getCurrentPosition();
+                telemetry.addData("lift",pos);
+                telemetry.update();
+                packet.put("liftPos", pos);
+                if (pos < -50) {
+                    return true;
+                } else {
+                    telemetry.addData("exited","liftdown");
+                    telemetry.update();
+                    vrSlides.setPower(0);
+                    vlSlides.setPower(0);
+                    vrSlides1.setPower(0);
+                    vlSlides1.setPower(0);
+                    return false;
+                }
+            }
+        }
+        public Action liftDownFinal(){
+            return new LiftDownFinal();
+        }
+
         public class LiftInit implements Action {
             private boolean initialized = false;
 
@@ -187,7 +224,7 @@ public class BlueAuto extends LinearOpMode {
                     initialized = true;
                 }
 
-                double pos = vlSlides.getCurrentPosition();
+                double pos = vrSlides.getCurrentPosition();
                 telemetry.addData("lift",pos);
                 telemetry.update();
                 packet.put("liftPos", pos);
@@ -227,29 +264,51 @@ public class BlueAuto extends LinearOpMode {
                         .turn(Math.toRadians(-90))
                         .lineToX(-60)
                         .build();
-        Action moveRight = drive.actionBuilder(new Pose2d(0,35,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-35,35))
+        Action moveRight = drive.actionBuilder(new Pose2d(0,28,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-36,38))
                         .build();
         Action moveForward = drive.actionBuilder(new Pose2d(-35,35,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-45, 6))
+                        .strafeTo(new Vector2d(-45, 15))
                         .build();
-        Action bringBlock1 = drive.actionBuilder(new Pose2d(-35,6,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-47,6))
-                        .strafeTo(new Vector2d(-47,60))
+        Action bringBlock1 = drive.actionBuilder(new Pose2d(-36,38,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-40,10))
+                        .strafeTo(new Vector2d(-46,10))
+                        .strafeTo(new Vector2d(-50,60))
                         .build();
-        Action getBlock2 = drive.actionBuilder(new Pose2d(-45,60,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-47,15))
-                        .splineToLinearHeading(new Pose2d(-60,55,Math.toRadians(90)),0.5)
+        Action getBlock2 = drive.actionBuilder(new Pose2d(-50,60,Math.toRadians(90)))
+                        .strafeTo(new Vector2d(-40,15))
+                        .strafeTo(new Vector2d(-55,15))
+                        //.strafeTo(new Vector2d(-55,60))
                         .build();
+        Action bringBlock2 = drive.actionBuilder(new Pose2d(-55,15,Math.toRadians(90)))
+                //.splineToLinearHeading(new Pose2d(-60,55,Math.toRadians(90)),0.5)
+                .strafeTo(new Vector2d(-55,60))
+                .build();
+
         Action getSpecimen1 = drive.actionBuilder(new Pose2d(-60,55,Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-45,45))
-                        .strafeTo(new Vector2d(-45,55))
+                        .strafeTo(new Vector2d(-40,45))
+                        .strafeTo(new Vector2d(-40,55))
                         .build();
-        Action scoreSpecimen1 = drive.actionBuilder(new Pose2d(-45,60,Math.toRadians(90)))
-                        .splineToLinearHeading(new Pose2d(3,33,Math.toRadians(90)),1)
-                        .strafeTo(new Vector2d(3,32))
+        Action scoreSpecimen1 = drive.actionBuilder(new Pose2d(-40,55,Math.toRadians(90)))
+                        .splineToLinearHeading(new Pose2d(3,35,Math.toRadians(90)),1)
+                        .strafeTo(new Vector2d(6,28))
                         .build();
-        //Action scoreSpecimen2 =  drive.actionBuilder(new Pose2d())
+        Action getSpecimen2 =  drive.actionBuilder(new Pose2d(6,28,Math.toRadians(90)))
+                        .splineToLinearHeading(new Pose2d(-40,50,Math.toRadians(90)),1)
+                        .strafeTo(new Vector2d(-40,60))
+                        .build();
+        Action scoreSpecimen2 = drive.actionBuilder(new Pose2d(-40,60,Math.toRadians(90)))
+                    .splineToLinearHeading(new Pose2d(3,35,Math.toRadians(90)),1)
+                    .strafeTo(new Vector2d(0,28))
+                    .build();
+        Action getSpecimen3 =  drive.actionBuilder(new Pose2d(0,28,Math.toRadians(90)))
+                .splineToLinearHeading(new Pose2d(-40,50,Math.toRadians(90)),1)
+                .strafeTo(new Vector2d(-40,60))
+                .build();
+        Action scoreSpecimen3 = drive.actionBuilder(new Pose2d(-40,60,Math.toRadians(90)))
+                .splineToLinearHeading(new Pose2d(3,35,Math.toRadians(90)),1)
+                .strafeTo(new Vector2d(3,28))
+                .build();
 
         waitForStart();
         if (isStopRequested()) return;
@@ -257,23 +316,60 @@ public class BlueAuto extends LinearOpMode {
                 new SequentialAction(
                         lift.liftInit(),
                         moveToPreload,
-                        lift.liftUp(),
-                        lift.liftDown(),
-                        scorePreload,
-                        moveRight,
+                        lift.liftUp()
+                )
+        );
+        Actions.runBlocking(
+                new ParallelAction(
+                        lift.liftDownFinal(),
+                        moveRight
+                        //scorePreload
+                )
+        );
+        Actions.runBlocking(
+                new SequentialAction(
                         //moveForward,
+                        //moveRight,
                         bringBlock1,
-                        getBlock2,
                         intakeBar.barPickup(),
-                        getSpecimen1,
+                        getBlock2,
+                        bringBlock2,
                         intakeBar.barScore(),
                         scoreSpecimen1,
-                        lift.liftUpPartial(),
+                        //lift.liftUpPartial(),
+                        //intakeBar.barScore(),
+                        lift.liftUp()
+                )
+        );
+        Actions.runBlocking(
+                new ParallelAction(
+                        lift.liftDownFinal(),
+                        intakeBar.barPickup(),
+                        getSpecimen2
+                )
+        );
+        Actions.runBlocking(
+                new SequentialAction(
+                        //lift.liftUpPartial(),
                         intakeBar.barScore(),
+                        scoreSpecimen2,
+                        lift.liftUp()
+                )
+        );
+        Actions.runBlocking(
+                new ParallelAction(
+                        lift.liftDownFinal(),
+                        intakeBar.barPickup(),
+                        getSpecimen3
+                )
+        );
+        Actions.runBlocking(
+                new SequentialAction(
+                        //lift.liftUpPartial(),
+                        intakeBar.barScore(),
+                        scoreSpecimen3,
                         lift.liftUp(),
                         lift.liftDown()
-
-
                         //trajectory4
                         //trajectory3
                 )
