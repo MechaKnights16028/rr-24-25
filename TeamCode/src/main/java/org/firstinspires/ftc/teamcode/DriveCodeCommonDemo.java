@@ -52,7 +52,7 @@ public class DriveCodeCommonDemo extends LinearOpMode {
         if (gamepad1.right_bumper) {
             speed = 0.5;
         } else {
-            speed = 1.0;
+            speed = 0.5;
         }
 //        drive.leftBack.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x) * speed);
 //        drive.leftFront.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x) * speed);
